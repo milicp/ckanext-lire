@@ -1,0 +1,110 @@
+{% extends "lire/page.html" %}
+{% block static_styles %}
+<link rel="stylesheet" type="text/css" href="css/bootstrap-tooltip.css" />
+<link rel="stylesheet" type="text/css" href="css/font-awesome.css" />
+{% endblock %}
+{% block static_scripts %}
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/bootstrap.js"></script>
+{% endblock %}
+{% block rem_scripts %}
+  $("#form_random").blur(function() {
+    if($(this).val() == '')
+    {
+      $("#form_tag").removeAttr("disabled");
+      $("#form_group").removeAttr("disabled");
+      $("#form_organization").removeAttr("disabled");		
+    }
+    else
+    {
+      $("#form_tag").attr("disabled", "disabled");
+      $("#form_group").attr("disabled", "disabled");
+      $("#form_organization").attr("disabled", "disabled");
+    }
+  }).tooltip();
+  $("#form_tag").blur(function() {
+    if($(this).val() == '')
+    {
+      $("#form_random").removeAttr("disabled");
+      $("#form_group").removeAttr("disabled");
+      $("#form_organization").removeAttr("disabled");		
+    }
+    else
+    {
+      $("#form_random").attr("disabled", "disabled");
+      $("#form_group").attr("disabled", "disabled");
+      $("#form_organization").attr("disabled", "disabled");
+    }
+  }).tooltip();
+  $("#form_group").blur(function() {
+    if($(this).val() == '')
+    {
+      $("#form_tag").removeAttr("disabled");
+      $("#form_random").removeAttr("disabled");
+      $("#form_organization").removeAttr("disabled");		
+    }
+    else
+    {
+      $("#form_tag").attr("disabled", "disabled");
+      $("#form_random").attr("disabled", "disabled");
+      $("#form_organization").attr("disabled", "disabled");
+    }
+  }).tooltip();
+  $("#form_organization").blur(function() {
+    if($(this).val() == '')
+    {
+      $("#form_tag").removeAttr("disabled");
+      $("#form_group").removeAttr("disabled");
+      $("#form_random").removeAttr("disabled");		
+    }
+    else
+    {
+      $("#form_tag").attr("disabled", "disabled");
+      $("#form_group").attr("disabled", "disabled");
+      $("#form_random").attr("disabled", "disabled");
+    }
+  }).tooltip();
+{% endblock %}
+{% block primary %}
+  <h2>Relationship Manager</h2>
+  <br> <br>
+  <form role="form" class="well" id="mainForm" action="rem/relationships" method="post" name="form">
+    <table class="table" style="border:none; margin:0;">
+      <tbody>
+        <tr>
+	  <td style="border:none;">
+	    <div>
+	      <label for="form_random" class="control-label">Random</label>
+	      <input style="width:95%;" type="text" class="form-control" title="" name="form[random]" id="form_random" data-original-title="Enter random number of datasets">
+	    </div>
+	  </td>
+	  <td style="border:none;">
+	    <div>
+	      <label for="form_tag" class="control-label">Tag</label>
+	      <input style="width:95%;" type="text" class="form-control" title="" name="form[tag]" id="form_tag" data-original-title="Enter tag name">
+	    </div>
+	  </td>
+          <td style="border:none;">
+            <div>
+              <label for="form_group" class="control-label">Group</label>
+              <input style="width:95%;" type="text" class="form-control" title="" name="form[group]" id="form_group" data-original-title="Enter group name">
+            </div>
+          </td>
+          <td style="border:none;">
+            <div>
+              <label for="form_organization" class="control-label">Organization</label>
+              <input style="width:95%;" type="text" class="form-control" title="" name="form[organization]" id="form_organization" data-original-title="Enter organization name">
+            </div>
+          </td>				
+	</tr>
+	<tr>
+	  <td colspan="4" style="padding-top:30px; border:none;">
+	    <button type="submit" class="btn btn-primary">SUBMIT</button>
+	    <button type="reset" class="btn btn-primary"><i class="fa fa-refresh"></i> Reset </button>
+	  </td>			
+	</tr>				
+      </tbody>
+    </table>
+  </form>
+  
+{% endblock %}
