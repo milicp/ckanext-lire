@@ -1,0 +1,53 @@
+@prefix : <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+<{{ h.url_for(controller='package',action='read',id=c.pkg_dict['name'], qualified=True)}}>
+     a dcat:Dataset;
+     owl:sameAs "urn:uuid:{{ c.pkg_dict['id'] }}"
+     dct:description "{{ c.pkg_dict['notes'] }}" ;
+     dcat:keyword "{% for tag_dict in c.pkg_dict['tags']  %}{{ tag_dict["name"] }}{% endfor %}"
+     {% for rel in h.semre_create(c.pkg_dict['name'])  %}
+     void:linkset "{{ h.url_for(controller='package',action='read',id=c.pkg_dict['name'], qualified=True)}}#{{ loop.index0 + 1 }}" ;
+     void:subjectsTarget "{{ rel["subject"] }}" ;
+     void:objectsTarget "{{ rel["object"] }}" ;
+     void:linkPredicate "{{ rel["type"] }}" ;
+     rdfs:comment "{{ rel["comment"] }}" ;
+     {% endfor %}
+     foaf:homepage {{ h.url_for(controller='package',action='read',id=c.pkg_dict['name'], qualified=True)}} ;
+     rdfs:label "{{ c.pkg_dict['name'] }}" ;
+     dct:identifier "{{ c.pkg_dict['name'] }}" ;
+     dct:title "{{ c.pkg_dict['title'] }}" ;
+     {% for rsc_dict in c.pkg_dict['resources'] %}
+     dcat:distribution [
+       dcat:Distribution [
+         dcat:accessURL {{ rsc_dict['url'] }} ;
+         dcat:format [
+           dcat:IMT [
+             rdf:value {{ rsc_dict.get('format') }} ;
+             rdfs:label {{ rsc_dict.get('format') }} ;
+          ] ] ] ] 
+     {% endfor %}
+     dct:creator [
+       rdf:Description [
+         foaf:name {{ c.pkg_dict['maintainer'] }} ;
+         foaf:mbox {{ c.pkg_dict['maintainer_email'] }} ;
+         ] ]
+     dct:contributor [
+       rdf:Description [
+         foaf:name {{ c.pkg_dict['maintainer'] }} ;
+         foaf:mbox {{ c.pkg_dict['maintainer_email'] }} ;
+         ] ]
+     {% for extra_dict in c.pkg_dict.get('extras',None) %}
+     dct:relation [
+       rdf:Description [
+         rdfs:label {{ extra_dict.get('key','') }} ;
+         rdf:value {{ extra_dict.get('value','') }} ;
+         ] ]
+     {% endfor %}
+
+
+

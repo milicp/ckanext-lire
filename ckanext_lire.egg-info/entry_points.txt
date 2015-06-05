@@ -1,0 +1,4 @@
+
+    [ckan.plugins]
+    lire=ckanext.lire.plugin:LIREPlugin
+    
