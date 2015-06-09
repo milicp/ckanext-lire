@@ -44,13 +44,13 @@ class LIREPlugin(p.SingletonPlugin):
         rem = 'ckanext.lire.controllers.rem:REMController'
         ace = 'ckanext.lire.controllers.ace:ACEController'
 
-        map.connect('/rem', controller=lire, action='index')
+        map.connect('/lire', controller=lire, action='index')
 
-        map.connect('/rem/relationships', controller=lire, action='relationships')
+        map.connect('/lire/relationships', controller=lire, action='relationships')
 
-        map.connect('/rem/examineDatasets', controller=rem, action='examineDatasets')
+        map.connect('/lire/examineDatasets', controller=rem, action='examineDatasets')
 
-        map.connect('/rem/storeRelationships', controller=ace, action='storeRelationships')
+        map.connect('/lire/storeRelationships', controller=ace, action='storeRelationships')
 
         return map
 

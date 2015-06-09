@@ -34,7 +34,7 @@ to the ``[app:main]`` section of your CKAN .ini file:
 
     ckan.plugins = lire <other-plugins>
 
-After you reload the site, the LIRE plugin will be available from http://url-of-your-ckan/rem
+After you reload the site, the LIRE plugin will be available from http://url-of-your-ckan/lire
 
 Using The LIRE Extension
 ----------------------
