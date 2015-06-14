@@ -15,7 +15,7 @@
 <script type="text/javascript" src="../js/jquery.ui.touch-punch-0.2.2.min.js"></script>
 <script type="text/javascript" src="../js/jsPlumb-1.7.1-min.js"></script>
 {% endblock %}
-{% block rem_scripts %}
+{% block lire_scripts %}
 
 //reinitialize tooltip for datasets
 $("body").tooltip({ selector: '[data-toggle=tooltip]' });
@@ -82,6 +82,7 @@ $(".suggestedValue").click(function() {
 	if(temp != 'N.A.')
 	{
 		$("#conns tr:last td:nth-child(2)").html(temp);
+                $("#conns tr:last td:nth-child(2)").html('created by lire');
 	}	
 }).tooltip({
 	title: 'Click on suggested type to <br> apply it',
@@ -117,9 +118,10 @@ $("#commit").click(function() {
 		var type = table.rows[i].cells[1].innerHTML;				
 		var object = table.rows[i].cells[2].innerHTML;
 		var action = table.rows[i].cells[3].innerHTML;
+                var comment = table.rows[i].cells[4].innerHTML;
 				
 		//AJAX call for each row
-	        $.post('storeRelationships',{'action':action,'subject':subject,'type':type,'object':object,'comment':' '},
+	        $.post('storeRelationships',{'action':action,'subject':subject,'type':type,'object':object,'comment':comment},
 		  function(data) {
 		 });				
 	}
@@ -142,17 +144,26 @@ $("#commit").click(function() {
 });	
 (function() {
 	//add connection between dataset to pending actions table
-	insertRow = function(var1, var2, var3, var4) {
+	insertRow = function(var1, var2, var3, var4, var5) {
 		var table = document.getElementById("conns");
 		var row = table.insertRow(-1);
 		var cell1 = row.insertCell(0);
 		var cell2 = row.insertCell(1);
 		var cell3 = row.insertCell(2);	
-		var cell4 = row.insertCell(3);	
+		var cell4 = row.insertCell(3);
+                var cell5 = row.insertCell(4);	
 		cell1.innerHTML = var1;
 		cell2.innerHTML = var2;
 		cell3.innerHTML = var3;
 		cell4.innerHTML = var4;
+                if (typeof var5 != 'undefined')
+                {
+                  cell5.innerHTML = var5;
+                }
+	        else
+                {
+		  cell5.innerHTML = '...'
+                }
 	};
 	var listDiv = document.getElementById("list");
 	showConnectionInfo = function() {
@@ -196,7 +207,7 @@ $("#commit").click(function() {
 				
 			connections.push(con);
 			con.scope = rel;
-			insertRow(con.sourceId, rel, con.targetId, "package_relationship_create");
+			insertRow(con.sourceId, rel, con.targetId, "package_relationship_create", 'created by user');
 			showConnectionInfo();
 			document.getElementById("pending").innerHTML = table.rows.length - 1;
 			//conduct similiraty test between two newly connected datasets
@@ -433,7 +444,7 @@ $("#commit").click(function() {
 	  <div id="list">
 	    <span><strong>Connections</strong></span><br/><br/>
 	    <table id='conns'>
-	      <tr><th style='text-align:center;'>Subject dataset</th><th style='text-align:center;'>Type</th><th style='text-align:center;'>Object dataset</th><th style='text-align:center;'>Action</th></tr>				
+	      <tr><th style='text-align:center;'>Subject dataset</th><th style='text-align:center;'>Type</th><th style='text-align:center;'>Object dataset</th><th style='text-align:center;'>Action</th><th style='text-align:center;'>Comment</th></tr>				
 	    </table>			
 	  </div>
 	</div>

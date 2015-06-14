@@ -16,12 +16,14 @@
         <dcat:keyword>${ tag_dict["name"] }</dcat:keyword>
     </py:for>
     <py:for each="key,rel in enumerate(h.semre_create(c.pkg_dict['name']))">
-        <void:linkset rdf:about="${ h.url_for(controller='package',action='read',id=c.pkg_dict['name'], qualified=True)}#${ key + 1 }">
+      <void:linkset>
+        <void:linkset rdf:about="${ h.url_for(controller='package',action='read',id=c.pkg_dict['name'], qualified=True)}#relation${ key + 1 }">
             <void:subjectsTarget>${ rel["subject"] }</void:subjectsTarget>
             <void:objectsTarget>${ rel["object"] }</void:objectsTarget>
             <void:linkPredicate>${ rel["type"] }</void:linkPredicate>
             <rdfs:comment>${ rel["comment"] }</rdfs:comment>
         </void:linkset>
+      </void:linkset>  
     </py:for>
 
     <foaf:homepage rdf:resource="${ h.url_for(controller='package',action='read',id=c.pkg_dict['name'], qualified=True)}"/>

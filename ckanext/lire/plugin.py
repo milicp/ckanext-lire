@@ -46,7 +46,11 @@ class LIREPlugin(p.SingletonPlugin):
 
         map.connect('/lire', controller=lire, action='index')
 
-        map.connect('/lire/relationships', controller=lire, action='relationships')
+        map.connect('/lire/manager', controller=lire, action='manager')
+
+        map.connect('/lire/semantic', controller=lire, action='semantic')
+
+        map.connect('/lire/linksets.:id', controller=lire, action='linksets')
 
         map.connect('/lire/examineDatasets', controller=rem, action='examineDatasets')
 

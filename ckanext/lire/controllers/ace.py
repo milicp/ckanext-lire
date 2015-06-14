@@ -30,6 +30,7 @@ class ACEController(BaseController):
 
       result = toolkit.get_action('package_relationship_delete')(
           data_dict={'subject': request.params['subject'],'object':request.params['object'],'type':request.params['type']})      
+          #data_dict={'subject':'national-diet-library-authorities','object':'melanoma-skin-cancer-incidence','type':'depends_on'})
 
     else:
 
