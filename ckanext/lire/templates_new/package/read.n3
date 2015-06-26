@@ -10,7 +10,7 @@
      owl:sameAs "urn:uuid:{{ c.pkg_dict['id'] }}"
      dct:description "{{ c.pkg_dict['notes'] }}" ;
      dcat:keyword "{% for tag_dict in c.pkg_dict['tags']  %}{{ tag_dict["name"] }}{% endfor %}"
-     {% for rel in h.semre_create(c.pkg_dict['name'])  %}
+     {% for rel in h.semre_dataset(c.pkg_dict['name'])  %}
      void:linkset "{{ h.url_for(controller='package',action='read',id=c.pkg_dict['name'], qualified=True)}}#{{ loop.index0 + 1 }}" ;
      void:subjectsTarget "{{ rel["subject"] }}" ;
      void:objectsTarget "{{ rel["object"] }}" ;

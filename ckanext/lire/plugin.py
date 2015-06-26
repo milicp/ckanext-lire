@@ -6,6 +6,9 @@ import ckan.lib.dictization.model_dictize as model_dictize
 import ckan.model as model
 import ckan.plugins as p
 import ckan.lib.celery_app as celery_app
+from ckanext.lire.controllers.semre import (
+    SEMREController,
+)
 
 resource_dictize = model_dictize.resource_dictize
 send_task = celery_app.celery.send_task
@@ -43,14 +46,17 @@ class LIREPlugin(p.SingletonPlugin):
         lire = 'ckanext.lire.controller:LIREController'
         rem = 'ckanext.lire.controllers.rem:REMController'
         ace = 'ckanext.lire.controllers.ace:ACEController'
+        semre = 'ckanext.lire.controllers.semre:SEMREController'
 
         map.connect('/lire', controller=lire, action='index')
 
         map.connect('/lire/manager', controller=lire, action='manager')
 
-        map.connect('/lire/semantic', controller=lire, action='semantic')
+        map.connect('/lire/semantic', controller=semre, action='semantic')
 
-        map.connect('/lire/linksets.:id', controller=lire, action='linksets')
+        map.connect('/lire/linksets.:id', controller=semre, action='linksets')
+
+        map.connect('/lire/organization/:org.:ext', controller=semre, action='org_rdf')
 
         map.connect('/lire/examineDatasets', controller=rem, action='examineDatasets')
 
@@ -65,18 +71,20 @@ class LIREPlugin(p.SingletonPlugin):
 
       return randNum
 
+    ################
+    ## LIRE SEMRE ##
+    ################
     # Use this function in custom template to get dataset relationships
     # It will enable us to represent them semantically
-    def semre_create(self,datasetName):
+    def semre_dataset(self,datasetName):
 
-      # To get dataset relationships we call CKAN core function 'package_relationship_list'
-      # to whom we forward the name of the dataset
-      datasetRelationships = p.toolkit.get_action('package_relationships_list')(
-          data_dict={'id': datasetName})
+      semre = SEMREController()
 
-      # return results as dictionary
+      # To get dataset relationships we call SEMRE to whom we forward the name of the dataset
+      datasetRelationships = semre.semre_create(datasetName)
+
       return datasetRelationships
 
     def get_helpers(self):
-        return {'randomNum': self.randomNum,'semre_create': self.semre_create}
+        return {'randomNum': self.randomNum,'semre_dataset': self.semre_dataset}
 

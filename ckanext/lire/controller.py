@@ -146,45 +146,6 @@ class LIREController(BaseController):
       #specifying HTML template to render
       return p.toolkit.render('lire/manager.html')
 
-    #function for semantics...
-    def semantic(self):
-
-      tagURL = helpers.url_for(controller="package", action='read',qualified=True)
-      sourceURL = tagURL.rstrip('packages')
-      c.sourceURL = sourceURL
-
-      return render('lire/semantic.html')
-
-    #function for linksets in RDF...
-    def linksets(self, id=None):
-
-      #load controller for processing datasets by tag, group, organization, random number of datasets and all datasets
-      pan = PANController()
-
-      tempDatasets = toolkit.get_action('package_list')(
-              data_dict={})
-
-      pan_rezultati = pan.process_datasets(tempDatasets)
-
-      #get datasets with relations
-      dR = pan_rezultati['dR']
-
-      c.linksets = dR
-
-      tagURL = helpers.url_for(controller="package", action='read',qualified=True)
-      tagURL = tagURL.rstrip('packages') + 'dataset'
-      c.tagURL = tagURL 
-      
-      if (id == 'rdf'):
-        response.headers['Content-Type'] = 'application/rdf+xml; charset=utf-8'
-        return render('lire/linksets.rdf')
-      elif(id == 'nt'):
-        response.headers['Content-Type'] = 'text/n3; charset=utf-8'
-        return render('lire/linksets.nt')
-      else:
-        response.headers['Content-Type'] = 'text/n3; charset=utf-8'
-        return render('lire/linksets.n3')
-        
 
 
 
