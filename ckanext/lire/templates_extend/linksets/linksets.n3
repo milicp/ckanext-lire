@@ -1,0 +1,10 @@
+{% for key,value in c.linksets.items() %}
+  {% for v in value %}
+    <{{ c.tagURL }}/{{ value[0]['subject'] }}#{{ loop.index0 + 1}}> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://rdfs.org/ns/void#linkset> .
+    <{{ c.tagURL }}/{{ value[0]['subject'] }}#{{ loop.index0 + 1}}> <http://rdfs.org/ns/void#subjectsTag> "{{ v["subject"] }}" .
+    <{{ c.tagURL }}/{{ value[0]['subject'] }}#{{ loop.index0 + 1}}> <http://rdfs.org/ns/void#objectsTag> "{{ v["object"] }}" .
+    <{{ c.tagURL }}/{{ value[0]['subject'] }}#{{ loop.index0 + 1}}> <http://rdfs.org/ns/void#linkPredicate> "{{ v["type"] }}" .
+    <{{ c.tagURL }}/{{ value[0]['subject'] }}#{{ loop.index0 + 1}}> <http://www.w3.org/2000/01/rdf-schema#comment> "{{ v["comment"] }}" .
+ {% endfor %}
+{% endfor %}
+

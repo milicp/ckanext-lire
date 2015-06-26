@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF
+  xmlns:py="http://genshi.edgewall.org/"
+  xmlns:foaf="http://xmlns.com/foaf/0.1/"
+  xmlns:owl="http://www.w3.org/2002/07/owl#"
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:dcat="http://www.w3.org/ns/dcat#"
+  xmlns:dct="http://purl.org/dc/terms/"
+  xmlns:void="http://rdfs.org/ns/void#"
+>
+  <py:for each="key,value in c.linksets.items()">
+    <dcat:Dataset rdf:about="${c.tagURL}/${value[0]['subject']}">
+    <py:for each="k,v in enumerate(value)">
+      <void:linkset>
+        <void:linkset rdf:about="${c.tagURL}/${value[0]['subject']}#relation${ k + 1}">
+          <void:subjectsTarget> ${ v["subject"] }</void:subjectsTarget>
+          <void:objectsTarget> ${ v["object"] } </void:objectsTarget>
+          <void:linkPredicate> ${ v["type"] } </void:linkPredicate>
+          <rdfs:comment> ${ v["comment"] } </rdfs:comment>
+        </void:linkset>
+      </void:linkset>
+   </py:for>
+   </dcat:Dataset>
+  </py:for>
+</rdf:RDF>

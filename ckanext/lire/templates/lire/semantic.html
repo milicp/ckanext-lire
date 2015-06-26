@@ -1,0 +1,35 @@
+{% extends "lire/page.html" %}
+{% block subtitle %}{{ _('SEMANTIC') }}{% endblock %}
+{% block static_styles %}
+<link rel="stylesheet" type="text/css" href="../css/bootstrap-tooltip.css" />
+<link rel="stylesheet" type="text/css" href="../css/bootstrap.css" />
+<link rel="stylesheet" type="text/css" href="../css/font-awesome.css" />
+{% endblock %}
+{% block static_scripts %}
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/bootstrap.js"></script>
+{% endblock %}
+{% block lire_scripts %}
+   $("#format").tooltip();
+  $("#allLinksets").click(function() {
+    var format = $("#format").val();
+    URL = "{{ c.sourceURL }}lire/linksets" + "." + format
+    window.open(URL);		
+  });
+{% endblock %}
+{% block primary %}
+  <h2>SEMANTIC</h2>
+  <br> <br>
+  <div class="row well well-sm" style="padding: 15px;">
+    <div>
+      <label for="form_tag" class="control-label">Format</label>
+      <select id="format" class="form-control" style="width: 20%;" data-original-title="Choose format to display linksets">
+        <option value='rdf'> RDF </option>
+        <option value='nt'> TURTLE </option>
+        <option value='n3'> N-TRIPLES </option>
+      </select>
+    <br>
+    </div>
+    <button id="allLinksets" class="btn btn-primary">ALL LINKSETS</button>
+  </div>  
+{% endblock %}

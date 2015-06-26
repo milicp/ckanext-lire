@@ -1,0 +1,12 @@
+<{{c.organizationURL}}/{{c.organization['name']}}> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Organization> .
+<{{c.organizationURL}}/{{c.organization['name']}}> <http://xmlns.com/foaf/0.1/homepage> <{{c.organizationURL}}/{{c.organization['name']}}> .
+<{{c.organizationURL}}/{{c.organization['name']}}> <http://www.w3.org/2002/07/owl#sameAs> <urn:uuid:{{c.organization['id']}}> .
+<{{c.organizationURL}}/{{c.organization['name']}}> <http://xmlns.com/foaf/0.1/name> "{{c.organization['name']}}" .
+<{{c.organizationURL}}/{{c.organization['name']}}> <http://www.w3.org/2000/01/rdf-schema#label> "{{c.organization['title']}}" .
+<{{c.organizationURL}}/{{c.organization['name']}}> <http://xmlns.com/foaf/0.1/status> "{{c.organization['state']}}" .
+<{{c.organizationURL}}/{{c.organization['name']}}> <http://www.w3.org/ns/dcat#Dataset> _:datasets .
+{% for value in c.organization['packages'] %} 
+_:datasets <http://www.w3.org/ns/dcat#Dataset> <{{ c.datasetURL }}/{{ value['name'] }}> . 
+{% endfor %}
+
+
