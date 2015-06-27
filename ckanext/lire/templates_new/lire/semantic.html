@@ -10,17 +10,24 @@
 <script type="text/javascript" src="../js/bootstrap.js"></script>
 {% endblock %}
 {% block lire_scripts %}
-   $("#format").tooltip();
+  $("#format").tooltip();
   $("#allLinksets").click(function() {
     var format = $("#format").val();
     URL = "{{ c.sourceURL }}lire/linksets" + "." + format
     window.open(URL);		
   });
+  $("#help").popover({
+    title: 'Semantic description of organizations:',
+    content: 'To get semantic description of an organization, add "/lire/organization/" + name of organization + format in URL <br><br> For example, /lire/organization/afis.rdf or /lire/organization/afis.nt',
+    placement: 'top',
+    html: true
+  }); 
 {% endblock %}
 {% block primary %}
   <h2>SEMANTIC</h2>
   <br> <br>
   <div class="row well well-sm" style="padding: 15px;">
+  <p class="pull-right"> <button class="btn btn-primary" type="button" id="help">ORGANIZATION INFO</button> </p>
     <div>
       <label for="form_tag" class="control-label">Format</label>
       <select id="format" class="form-control" style="width: 20%;" data-original-title="Choose format to display linksets">

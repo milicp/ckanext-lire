@@ -11,11 +11,7 @@
      dct:description "{{ c.pkg_dict['notes'] }}" ;
      dcat:keyword "{% for tag_dict in c.pkg_dict['tags']  %}{{ tag_dict["name"] }}{% endfor %}"
      {% for rel in h.semre_dataset(c.pkg_dict['name'])  %}
-     void:linkset "{{ h.url_for(controller='package',action='read',id=c.pkg_dict['name'], qualified=True)}}#{{ loop.index0 + 1 }}" ;
-     void:subjectsTarget "{{ rel["subject"] }}" ;
-     void:objectsTarget "{{ rel["object"] }}" ;
-     void:linkPredicate "{{ rel["type"] }}" ;
-     rdfs:comment "{{ rel["comment"] }}" ;
+     void:linkset <{{ h.url_for(controller='package',action='read',id=c.pkg_dict['name'], qualified=True)}}#{{ loop.index0 + 1 }}> ;
      {% endfor %}
      foaf:homepage {{ h.url_for(controller='package',action='read',id=c.pkg_dict['name'], qualified=True)}} ;
      rdfs:label "{{ c.pkg_dict['name'] }}" ;
@@ -48,6 +44,23 @@
          rdf:value {{ extra_dict.get('value','') }} ;
          ] ]
      {% endfor %}
+     foaf:Organization <{{ h.url_for(controller='organization',action='read',id=c.pkg_dict['organization']['name'], qualified=True)}}>
+     {% for rel in h.semre_dataset(c.pkg_dict['name'])  %}
+     <{{ h.url_for(controller='package',action='read',id=c.pkg_dict['name'], qualified=True)}}#{{ loop.index0 + 1 }}>
+       a void:linkset ;
+       void:subjectsTarget "{{ rel["subject"] }}" ;
+       void:objectsTarget "{{ rel["object"] }}" ;
+       void:linkPredicate "{{ rel["type"] }}" ;
+       rdfs:comment "{{ rel["comment"] }}" ;
+     {% endfor %}
+     <{{ h.url_for(controller='organization',action='read',id=c.pkg_dict['organization']['name'], qualified=True) }}>
+       a foaf:Organization ;
+       foaf:homepage "<{{ h.url_for(controller='organization',action='read',id=c.pkg_dict['organization']['name'], qualified=True) }}>"
+       owl:sameAs "<urn:uuid:{{c.pkg_dict['organization']['id']}}>"
+       foaf:name "{{c.pkg_dict['organization']['name']}}"
+       rdfs:label "{{c.pkg_dict['organization']['title']}}"
+       foaf:status "{{c.pkg_dict['organization']['state']}}"
+     
 
 
 

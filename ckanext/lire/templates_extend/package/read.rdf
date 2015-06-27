@@ -66,5 +66,14 @@
           </rdf:Description>
         </dct:relation>
     </py:for>
+    <foaf:Organization> 
+      <foaf:Organization rdf:about="${ h.url_for(controller='organization',action='read',id=c.pkg_dict['organization']['name'], qualified=True)}">
+        <foaf:homepage rdf:resource="${ h.url_for(controller='organization',action='read',id=c.pkg_dict['organization']['name'], qualified=True)}"/>
+        <owl:sameAs rdf:resource="urn:uuid:${c.pkg_dict['organization']['id']}"/>
+        <foaf:name>${c.pkg_dict['organization']['name']}</foaf:name>
+        <rdfs:label>${c.pkg_dict['organization']['title']}</rdfs:label>
+        <foaf:status>${c.pkg_dict['organization']['state']}</foaf:status>
+      </foaf:Organization>
+    </foaf:Organization>  
   </dcat:Dataset>
 </rdf:RDF>
