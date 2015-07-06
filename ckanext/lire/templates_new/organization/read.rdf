@@ -12,8 +12,31 @@
     <foaf:homepage rdf:resource="${c.organizationURL}/${c.organization['name']}"/> 
     <owl:sameAs rdf:resource="urn:uuid:${c.organization['id']}"/>
     <foaf:name>${c.organization['name']}</foaf:name>
-    <rdfs:label>${c.organization['title']}</rdfs:label>
+    <foaf:title>${c.organization['title']}</foaf:title>
+    <rdfs:label>${c.organization['description']}</rdfs:label>
     <foaf:status>${c.organization['state']}</foaf:status>
+    <py:for each="user in c.organization['users']">
+      <foaf:Person>
+        <foaf:Person rdf:about="${c.userURL}/${user['name']}">
+          <foaf:homepage rdf:resource="${c.userURL}/${user['name']}"/>
+          <owl:sameAs rdf:resource="urn:uuid:${user['id']}"/>
+          <foaf:name>${user['fullname']}</foaf:name>
+          <rdfs:label>${user['name']}</rdfs:label>
+        </foaf:Person>
+      </foaf:Person>
+    </py:for>
+    <py:for each="value in c.organization['groups']">
+    <foaf:Group>
+    <foaf:Group rdf:about="${c.groupURL}/${value['name']}">
+    <foaf:homepage rdf:resource="${c.groupURL}/${value['name']}"/>
+      <owl:sameAs rdf:resource="urn:uuid:${value['id']}"/>
+      <foaf:name>${value['name']}</foaf:name>
+      <foaf:title>${value['title']}</foaf:title>
+      <rdfs:label>${value['description']}</rdfs:label>
+      <foaf:status>${value['state']}</foaf:status>
+    </foaf:Group>
+    </foaf:Group>
+    </py:for>
     <py:for each="value in c.organization['packages']">
       <dcat:Dataset>
         <rdf:Description>

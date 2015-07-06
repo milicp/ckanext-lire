@@ -9,7 +9,32 @@
   foaf:homepage "<{{c.organizationURL}}/{{c.organization['name']}}>"
   owl:sameAs "<urn:uuid:{{c.organization['id']}}>"
   foaf:name "{{c.organization['name']}}"
-  rdfs:label "{{c.organization['title']}}"
+  foaf:title "{{c.organization['title']}}"
+  rdfs:label "{{c.organization['description']}}"
   foaf:status "{{c.organization['state']}}"
+  {% for group in c.organization['groups'] %}
+  foaf:Group <{{ c.groupURL }}/{{ group['name'] }}> ;
+  {% endfor %}
+  {% for user in c.organization['users'] %}
+  foaf:Person <{{ c.userURL }}/{{ user['name'] }}> ;
+  {% endfor %}
   dcat:Dataset [ dcat:Dataset {% for value in c.organization['packages'] %} <{{ c.datasetURL }}/{{ value['name'] }}> {% if (c.organization['packages']|length == (loop.index0 + 1)) %}{% else %},{% endif %}{% endfor %} ] .
+  {% for group in c.organization['groups'] %}
+  <{{c.groupURL}}/{{group['name']}}>
+    a foaf:Group ;
+    foaf:homepage "<{{c.groupURL}}/{{group['name']}}>"
+    owl:sameAs "<urn:uuid:{{group['id']}}>"
+    foaf:name "{{group['name']}}"
+    foaf:title "{{group['title']}}"
+    rdfs:label "{{group['description']}}"
+    foaf:status "{{group['state']}}"
+  {% endfor %}
+  {% for user in c.organization['users'] %}
+  <{{c.userURL}}/{{user['name']}}>
+    a foaf:Person ;
+    foaf:homepage "<{{c.userURL}}/{{user['name']}}>"
+    owl:sameAs "<urn:uuid:{{user['id']}}>"
+    foaf:name "{{user['fullname']}}"
+    rdfs:label "{{user['name']}}"
+  {% endfor %}
 

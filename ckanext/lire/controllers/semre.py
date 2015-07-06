@@ -82,10 +82,14 @@ class SEMREController(BaseController):
 
       URL = helpers.url_for(controller="package", action='read',qualified=True)
       organizationURL = URL.rstrip('packages') + 'organization'
+      groupURL = URL.rstrip('packages') + 'group'
       datasetURL = URL.rstrip('packages') + 'dataset'
+      userURL = URL.rstrip('packages') + 'user'
+      c.groupURL = groupURL
       c.organizationURL = organizationURL
       c.datasetURL = datasetURL 
       c.organization = orgInfo      
+      c.userURL = userURL
 
       if (ext == 'rdf'):
         response.headers['Content-Type'] = 'application/rdf+xml; charset=utf-8'

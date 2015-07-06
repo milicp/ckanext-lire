@@ -2,11 +2,34 @@
 <{{c.organizationURL}}/{{c.organization['name']}}> <http://xmlns.com/foaf/0.1/homepage> <{{c.organizationURL}}/{{c.organization['name']}}> .
 <{{c.organizationURL}}/{{c.organization['name']}}> <http://www.w3.org/2002/07/owl#sameAs> <urn:uuid:{{c.organization['id']}}> .
 <{{c.organizationURL}}/{{c.organization['name']}}> <http://xmlns.com/foaf/0.1/name> "{{c.organization['name']}}" .
-<{{c.organizationURL}}/{{c.organization['name']}}> <http://www.w3.org/2000/01/rdf-schema#label> "{{c.organization['title']}}" .
+<{{c.organizationURL}}/{{c.organization['name']}}> <http://xmlns.com/foaf/0.1/title> "{{c.organization['title']}}" .
+<{{c.organizationURL}}/{{c.organization['name']}}> <http://www.w3.org/2000/01/rdf-schema#label> "{{c.organization['description']}}" .
 <{{c.organizationURL}}/{{c.organization['name']}}> <http://xmlns.com/foaf/0.1/status> "{{c.organization['state']}}" .
 <{{c.organizationURL}}/{{c.organization['name']}}> <http://www.w3.org/ns/dcat#Dataset> _:datasets .
+{% for user in c.organization['users'] %}
+<{{c.userURL}}/{{c.user['name']}}> <http://xmlns.com/foaf/0.1/Person> <{{ c.userURL }}/{{ user['name'] }}> .
+{% endfor %}
 {% for value in c.organization['packages'] %} 
 _:datasets <http://www.w3.org/ns/dcat#Dataset> <{{ c.datasetURL }}/{{ value['name'] }}> . 
+{% endfor %}
+{% for group in c.organization['groups'] %}
+<{{c.organizationURL}}/{{c.organization['name']}}> <http://xmlns.com/foaf/0.1/Group> <{{ c.groupURL }}/{{ group['name'] }}> .
+{% endfor %}
+{% for group in c.organization['groups'] %}
+<{{c.groupURL}}/{{group['name']}}> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Group> .
+<{{c.groupURL}}/{{group['name']}}> <http://www.w3.org/2002/07/owl#sameAs> <urn:uuid:{{group['id']}}> .
+<{{c.groupURL}}/{{group['name']}}> <http://xmlns.com/foaf/0.1/homepage> <{{c.groupURL}}/{{group['name']}}> .
+<{{c.groupURL}}/{{group['name']}}> <http://xmlns.com/foaf/0.1/name> "{{group['title']}}" .
+<{{c.groupURL}}/{{group['name']}}> <http://xmlns.com/foaf/0.1/title> "{{group['title']}}" .
+<{{c.groupURL}}/{{group['name']}}> <http://www.w3.org/2000/01/rdf-schema#label> "{{group['description']}}" .
+<{{c.groupURL}}/{{group['name']}}> <http://xmlns.com/foaf/0.1/status> "{{group['state']}}" .
+{% endfor %}
+{% for user in c.organization['users'] %}
+<{{c.userURL}}/{{user['name']}}> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<{{c.userURL}}/{{user['name']}}> <http://www.w3.org/2002/07/owl#sameAs> <urn:uuid:{{user['id']}}> .
+<{{c.userURL}}/{{user['name']}}> <http://xmlns.com/foaf/0.1/homepage> <{{c.userURL}}/{{user['name']}}> .
+<{{c.userURL}}/{{user['name']}}> <http://xmlns.com/foaf/0.1/name> "{{user['fullname']}}" .
+<{{c.userURL}}/{{user['name']}}> <http://www.w3.org/2000/01/rdf-schema#label> "{{user['name']}}" .
 {% endfor %}
 
 
