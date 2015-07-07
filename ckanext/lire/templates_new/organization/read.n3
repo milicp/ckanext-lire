@@ -23,6 +23,9 @@ _:datasets <http://www.w3.org/ns/dcat#Dataset> <{{ c.datasetURL }}/{{ value['nam
 <{{c.groupURL}}/{{group['name']}}> <http://xmlns.com/foaf/0.1/title> "{{group['title']}}" .
 <{{c.groupURL}}/{{group['name']}}> <http://www.w3.org/2000/01/rdf-schema#label> "{{group['description']}}" .
 <{{c.groupURL}}/{{group['name']}}> <http://xmlns.com/foaf/0.1/status> "{{group['state']}}" .
+<http://192.168.1.200/ckan/group/ldg> <http://purl.org/dc/terms/relation> _:capacity .
+_:capacity <http://www.w3.org/2000/01/rdf-schema#label> "capacity" .
+_:capacity <http://www.w3.org/2000/01/rdf-schema#value> "{{group['capacity']}}" .
 {% endfor %}
 {% for user in c.organization['users'] %}
 <{{c.userURL}}/{{user['name']}}> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
@@ -30,6 +33,12 @@ _:datasets <http://www.w3.org/ns/dcat#Dataset> <{{ c.datasetURL }}/{{ value['nam
 <{{c.userURL}}/{{user['name']}}> <http://xmlns.com/foaf/0.1/homepage> <{{c.userURL}}/{{user['name']}}> .
 <{{c.userURL}}/{{user['name']}}> <http://xmlns.com/foaf/0.1/name> "{{user['fullname']}}" .
 <{{c.userURL}}/{{user['name']}}> <http://www.w3.org/2000/01/rdf-schema#label> "{{user['name']}}" .
+<{{c.userURL}}/{{user['name']}}> <http://purl.org/dc/terms/relation> _:capacity .
+<{{c.userURL}}/{{user['name']}}> <http://purl.org/dc/terms/relation> _:sysadmin .
+_:capacity <http://www.w3.org/2000/01/rdf-schema#label> "capacity" .
+_:capacity <http://www.w3.org/2000/01/rdf-schema#value> "{{user['capacity']}}" .
+_:sysadmin <http://www.w3.org/2000/01/rdf-schema#label> "sysadmin" .
+_:sysadmin <http://www.w3.org/2000/01/rdf-schema#value> "{{user['sysadmin']}}" .
 {% endfor %}
 
 

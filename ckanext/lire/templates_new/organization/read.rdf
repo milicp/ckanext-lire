@@ -22,20 +22,38 @@
           <owl:sameAs rdf:resource="urn:uuid:${user['id']}"/>
           <foaf:name>${user['fullname']}</foaf:name>
           <rdfs:label>${user['name']}</rdfs:label>
+          <dct:relation>
+            <rdf:Description>
+              <rdfs:label> capacity </rdfs:label>
+              <rdfs:value>${user['capacity']}</rdfs:value>
+            </rdf:Description>  
+          </dct:relation>
+          <dct:relation>
+            <rdf:Description>
+              <rdfs:label> sysadmin </rdfs:label>
+              <rdfs:value>${user['sysadmin']}</rdfs:value>
+            </rdf:Description>  
+          </dct:relation>
         </foaf:Person>
       </foaf:Person>
     </py:for>
-    <py:for each="value in c.organization['groups']">
-    <foaf:Group>
-    <foaf:Group rdf:about="${c.groupURL}/${value['name']}">
-    <foaf:homepage rdf:resource="${c.groupURL}/${value['name']}"/>
-      <owl:sameAs rdf:resource="urn:uuid:${value['id']}"/>
-      <foaf:name>${value['name']}</foaf:name>
-      <foaf:title>${value['title']}</foaf:title>
-      <rdfs:label>${value['description']}</rdfs:label>
-      <foaf:status>${value['state']}</foaf:status>
-    </foaf:Group>
-    </foaf:Group>
+    <py:for each="group in c.organization['groups']">
+      <foaf:Group>
+        <foaf:Group rdf:about="${c.groupURL}/${group['name']}">
+          <foaf:homepage rdf:resource="${c.groupURL}/${group['name']}"/>
+          <owl:sameAs rdf:resource="urn:uuid:${group['id']}"/>
+          <foaf:name>${group['name']}</foaf:name>
+          <foaf:title>${group['title']}</foaf:title>
+          <rdfs:label>${group['description']}</rdfs:label>
+          <foaf:status>${group['state']}</foaf:status>
+          <dct:relation>
+            <rdf:Description>
+              <rdfs:label> capacity </rdfs:label>
+              <rdfs:value>${group['capacity']}</rdfs:value>
+            </rdf:Description>  
+          </dct:relation>
+        </foaf:Group>
+      </foaf:Group>
     </py:for>
     <py:for each="value in c.organization['packages']">
       <dcat:Dataset>

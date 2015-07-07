@@ -28,6 +28,10 @@
     foaf:title "{{group['title']}}"
     rdfs:label "{{group['description']}}"
     foaf:status "{{group['state']}}"
+    dc:relation [
+      rdfs:label "capacity" ;
+      rdf:value "{{group['capacity']}}"
+    ] .
   {% endfor %}
   {% for user in c.organization['users'] %}
   <{{c.userURL}}/{{user['name']}}>
@@ -36,5 +40,13 @@
     owl:sameAs "<urn:uuid:{{user['id']}}>"
     foaf:name "{{user['fullname']}}"
     rdfs:label "{{user['name']}}"
+    dc:relation [
+      rdfs:label "capacity" ;
+      rdf:value "{{user['capacity']}}"
+    ] ,
+    [
+      rdfs:label "sysadmin" ;
+      rdf:value "{{user['sysadmin']}}"
+    ] .
   {% endfor %}
 
