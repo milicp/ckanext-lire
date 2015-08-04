@@ -4,39 +4,99 @@
 <link rel="stylesheet" type="text/css" href="../css/bootstrap-tooltip.css" />
 <link rel="stylesheet" type="text/css" href="../css/bootstrap.css" />
 <link rel="stylesheet" type="text/css" href="../css/font-awesome.css" />
+<link rel="stylesheet" type="text/css" href="../css/selectize.default.css" />
 {% endblock %}
 {% block static_scripts %}
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript" src="../js/bootstrap.js"></script>
+<script type="text/javascript" src="../js/selectize.js"></script>
 {% endblock %}
 {% block lire_scripts %}
-  $("#format").tooltip();
   $("#allLinksets").click(function() {
-    var format = $("#format").val();
+    var format = $("#select-format").val();
     URL = "{{ c.sourceURL }}lire/linksets" + "." + format
     window.open(URL);		
+  });
+  $("#checkDataset").click(function() {
+    var dataset = $("#select-dataset").val();
+    $.post('checkDataset',{'dataset':dataset},
+          function(data) {
+            result = 'linksetsS ' + data.linksetsS + ' linksetsO ' + data.linksetsO
+           // alert(result)
+           message = '<table> <tr> <td style="padding:5px;">  subject dataset </td> <td style="padding:5px;"> -> </td> <td style="padding:5px;"> ' + data.linksetsS + '</td> <td style="padding:5px 5px 5px 20px;" rowspan="2"> <a href="' + data.datasetURL + '">' + data.datasetURL + '</a></td></tr> <tr> <td style="padding:5px;"> object dataset </td> <td style="padding:5px;"> -> </td> <td style="padding:5px;">' + data.linksetsO + '</td> </tr> </table>'
+           $('#datasetModal').modal('show');
+           $('#datasetModal .modal-body').html(message);
+    });
   });
   $("#help").popover({
     title: 'Semantic description of organizations:',
     content: 'To get semantic description of an organization, add "/lire/organization/" + name of organization + format in URL <br><br> For example, /lire/organization/afis.rdf or /lire/organization/afis.nt',
     placement: 'top',
     html: true
-  }); 
+  });
+  $('#select-format').selectize({
+      create: false,
+      sortField: {
+          field: 'text',
+          direction: 'asc'
+      },
+      dropdownParent: 'body'
+  });
+  $('#select-dataset').selectize({
+      create: false,
+      sortField: {
+          field: 'text',
+          direction: 'asc'
+      },
+      dropdownParent: 'body'
+  });
 {% endblock %}
 {% block primary %}
   <h2>SEMANTIC</h2>
-  <br> <br>
+  <br> <br> 
   <div class="row well well-sm" style="padding: 15px;">
   <p class="pull-right"> <button class="btn btn-primary" type="button" id="help">ORGANIZATION INFO</button> </p>
-    <div>
-      <label for="form_tag" class="control-label">Format</label>
-      <select id="format" class="form-control" style="width: 20%;" data-original-title="Choose format to display linksets">
-        <option value='rdf'> RDF </option>
-        <option value='nt'> TURTLE </option>
-        <option value='n3'> N-TRIPLES </option>
-      </select>
-    <br>
+    <table style="width:100%;">
+      <tr>
+        <td>
+          <label for="format" class="control-label">Format</label>
+          <select id="select-format" class="demo-default" style="width: 40%;">
+            <option value='rdf'> RDF </option>
+            <option value='nt'> TURTLE </option>
+            <option value='n3'> N-TRIPLES </option>
+          </select>
+          <br>  
+          <button id="allLinksets" class="btn btn-primary">ALL LINKSETS</button>
+        </td>
+        <td>
+	    <label for="dataset" class="control-label dataset">Dataset</label>
+	    <select id="select-dataset" class="demo-default" style="width:40%;" placeholder="Select a dataset...">
+	      <option value="">Select a dataset...</option>
+              {% for dataset in c.datasets %}
+                <option value="{{dataset}}"> {{dataset}} </option>
+              {% endfor %}
+	    </select>
+          <br>
+          <button id="checkDataset" class="btn btn-primary">CHECK FOR MISSING LINKS</button>
+       </td>
+      </tr>
+    </table>
+  </div> 
+  <div class="modal-bootstrap fade" id="datasetModal" tabindex="-1" role="dialog" aria-labelledby="datasetModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <h4 class="modal-title" id="datasetModalLabel">MISSING LINKS DETECTION</h4>
+        </div>
+        <div class="modal-body">
+          aa
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
     </div>
-    <button id="allLinksets" class="btn btn-primary">ALL LINKSETS</button>
-  </div>  
+  </div>
+ 
 {% endblock %}

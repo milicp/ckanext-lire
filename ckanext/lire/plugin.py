@@ -61,6 +61,8 @@ class LIREPlugin(p.SingletonPlugin):
         map.connect('/lire/examineDatasets', controller=rem, action='examineDatasets')
 
         map.connect('/lire/storeRelationships', controller=ace, action='storeRelationships')
+    
+        map.connect('/lire/checkDataset', controller=semre, action='checkDataset')
 
         return map
 

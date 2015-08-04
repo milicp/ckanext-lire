@@ -6,6 +6,8 @@ import urlparse
 import ckan.plugins.toolkit as toolkit
 import ckan.lib.helpers as helpers
 
+import rdflib
+
 from ckan.lib.base import request
 from ckan.lib.helpers import parse_rfc_2822_date
 import ckan.plugins as p
@@ -38,11 +40,55 @@ class SEMREController(BaseController):
     #function for semantics...
     def semantic(self):
 
+      datasets = toolkit.get_action('package_list')(
+              data_dict={})
+
+      c.datasets = datasets
+
       tagURL = helpers.url_for(controller="package", action='read',qualified=True)
       sourceURL = tagURL.rstrip('packages')
       c.sourceURL = sourceURL
 
+      c.test = 'aaa'
+
       return render('lire/semantic.html')
+
+   #function for semantics...
+    def checkDataset(self):
+
+
+      tagURL = helpers.url_for(controller="package", action='read',qualified=True)
+      sourceURL = tagURL.rstrip('packages')
+
+      datasetURL = sourceURL + 'dataset/' + request.params['dataset'] + '.rdf'
+
+      g = rdflib.Graph()
+      g.load(datasetURL)
+
+      resultS = 0
+      resultO = 0
+      rowS = g.query('select ?s where { ?Dataset void:subjectsTarget ?s . filter isURI(?s) . }')
+      resultS = resultS + len(rowS)
+      rowO = g.query('select ?o where { ?Dataset void:objectsTarget ?o . filter isURI(?o) . }')
+      resultO = resultO + len(rowO)
+
+      #get relations for dataset
+      dR = toolkit.get_action('package_relationships_list')(
+          data_dict={'id': request.params['dataset']})
+
+
+      if (((len(dR) - resultS) == 0) and ((len(dR) - resultO) == 0)):
+        linksetsS = 0
+        linksetsO = 0
+      else:
+        linksetsS = len(dR) - resultS
+        linksetsO = len(dR) - resultO
+     
+      
+      results = {'linksetsS':linksetsS,'linksetsO':linksetsO,'datasetURL':datasetURL}
+
+      response.headers['Content-Type'] = 'application/json;charset=utf-8'
+      return json.dumps(results)
 
     #function for linksets in RDF...
     def linksets(self, id=None):
