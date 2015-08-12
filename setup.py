@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='ckanext-lire',
-    version=__version__,
+    version='1.0',
     description='CKAN extension for GUI managing of dataset relationships',
     long_description='',
     classifiers=[],
