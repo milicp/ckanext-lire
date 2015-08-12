@@ -21,7 +21,7 @@ Before installing ckanext-lire, make sure that you have installed the following:
 Installation
 ------------
 
-Install the plugin using pip. Download it, then from the ckanext-semre directory, run
+Install the plugin using pip. Download it, then from the ckanext-lire directory, run
 
 ::
 

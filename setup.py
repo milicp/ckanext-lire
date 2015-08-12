@@ -1,5 +1,4 @@
 from setuptools import setup, find_packages
-from ckanext.qa import __version__
 
 setup(
     name='ckanext-lire',
