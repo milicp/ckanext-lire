@@ -17,7 +17,7 @@ Requirements
 Before installing ckanext-lire, make sure that you have installed the following:
 
 * CKAN 2.0+
-* python rdflib library for handling RDF
+* python rdflib library - https://github.com/RDFLib/rdflib
 
 Installation
 ------------
