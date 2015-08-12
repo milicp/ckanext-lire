@@ -5,13 +5,11 @@ import random
 import ckan.lib.dictization.model_dictize as model_dictize
 import ckan.model as model
 import ckan.plugins as p
-import ckan.lib.celery_app as celery_app
 from ckanext.lire.controllers.semre import (
     SEMREController,
 )
 
 resource_dictize = model_dictize.resource_dictize
-send_task = celery_app.celery.send_task
 
 class LIREPlugin(p.SingletonPlugin):
 
