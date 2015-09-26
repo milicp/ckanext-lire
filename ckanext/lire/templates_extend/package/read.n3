@@ -48,8 +48,8 @@
      {% for rel in h.semre_dataset(c.pkg_dict['name'])  %}
      <{{ h.url_for(controller='package',action='read',id=c.pkg_dict['name'], qualified=True)}}#{{ loop.index0 + 1 }}>
        a void:linkset ;
-       void:subjectsTarget "{{ rel["subject"] }}" ;
-       void:objectsTarget "{{ rel["object"] }}" ;
+       void:subjectsTarget "<{{ h.url_for(controller='package',action='read',id= rel['subject'], qualified=True)}}>" ;
+       void:objectsTarget "<{{ h.url_for(controller='package',action='read',id= rel['object'], qualified=True)}}>" ;
        void:linkPredicate "{{ rel["type"] }}" ;
        rdfs:comment "{{ rel["comment"] }}" ;
      {% endfor %}
