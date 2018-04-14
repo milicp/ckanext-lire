@@ -132,7 +132,7 @@ class LIREController(BaseController):
           del eKey[k]
 
       #specify formats that describe linked data
-      LDF = ['rdf','rdfa','sparql','n-triples','turtle','n3','nq']
+      LDF = ['rdf','rdfa','sparql','n-triples','turtle','n3','nq', 'nt']
 
       #preparing data for using in HTML template
       c.eKey = eKey

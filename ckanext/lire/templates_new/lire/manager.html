@@ -46,7 +46,7 @@ $("body").tooltip({ selector: '[data-toggle=tooltip]' });
 	$("#{{key}}_sem").popover({
 		title: '',
 		html: true,
-		content: '<h5 style="display: inline-block;"><span style="background-color:#2DEB60;" class="label label-default fa fa-file"> <a href="{{c.tagURL}}/{{value.title}}.rdf" target="_blank" style="padding-left:5px;">RDF</a></span></h5> <h5 style="display: inline-block;"><span style="background-color:#2DEB60;" class="label label-default fa fa-file"> <a href="{{c.tagURL}}/{{value.title}}.n3" target="_blank" style="padding-left:5px;">N3</a></span></h5>',
+		content: '<h5 style="display: inline-block;"><span style="background-color:#2DEB60;" class="label label-default fa fa-file"> <a href="{{c.tagURL}}/{{value.title}}.rdf" target="_blank" style="padding-left:5px;">RDF</a></span></h5> <h5 style="display: inline-block;"><span style="background-color:#2DEB60;" class="label label-default fa fa-file"> <a href="{{c.tagURL}}/{{value.title}}.n3" target="_blank" style="padding-left:5px;">TURTLE</a></span></h5>',
 		placement: 'top',
 		template: '<div style="width:276px;" class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
 	});			
