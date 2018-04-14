@@ -102,7 +102,7 @@ class FUNCTIONSController(BaseController):
       #if we find at least one matching we break loops
       for keyS,valueS in enumerate(sG):
         for keyO,valueO in enumerate(oG):
-          if (valueS is valueO):
+          if valueS == valueO:
             group = 'true'
             control = 1
             break

@@ -134,13 +134,13 @@ class REMController(BaseController):
 
     #examine dataset parameters accordint to the model to check can we suggest 
     #some type of relation to the user apart from the one  he choose
-    if ((tagCount > 0) and (org_gru == 1) and (tagSOO >= tagOSO) and (tagSOG >= tagOSG) and (resultLinks is 'true') and (formatsSO > formatsOS) and (dateTimeCreation == 2) and (trackingSD['total'] < trackingOD['total']) and (trackingSD['recent'] < trackingOD['recent']) and (fsS < fsO) and (sOpen == 1) and (oOpen == 1)):
+    if (tagCount > 0) and (org_gru == 1) and (tagSOO >= tagOSO) and (tagSOG >= tagOSG) and (resultLinks is 'true') and (formatsSO > formatsOS) and (dateTimeCreation == 0) and (trackingSD['total'] < trackingOD['total']) and (trackingSD['recent'] < trackingOD['recent']) and (fsS < fsO) and (sOpen == 1) and (oOpen == 1):
       suggestedType = 'child_of'
-    elif ((tagCount > 0) and (org_gru == 1) and (tagSOO <= tagOSO) and (tagSOG <= tagOSG) and (resultLinks is 'true') and (formatsSO < formatsOS) and (dateTimeCreation == 1) and (trackingSD['total'] > trackingOD['total']) and (trackingSD['recent'] > trackingOD['recent']) and (fsS > fsO) and (sOpen == 1) and (oOpen == 1)): 
+    elif (tagCount > 0) and (org_gru == 1) and (tagSOO <= tagOSO) and (tagSOG <= tagOSG) and (resultLinks is 'true') and (formatsSO < formatsOS) and (dateTimeCreation == 1) and (trackingSD['total'] > trackingOD['total']) and (trackingSD['recent'] > trackingOD['recent']) and (fsS > fsO) and (sOpen == 1) and (oOpen == 1): 
       suggestedType = 'parent_of'
-    elif ((tagCount > 0) and (formatsSO >= formatsOS) and (dateTimeCreation == 2) and (fsS > 3) and (fsO > 3) and (linkedFormat == 1) and (sOpen == 1) and (oOpen == 1) and (machineProcessable == 1)):
+    elif (tagCount > 0) and (formatsSO >= formatsOS) and (dateTimeCreation == 2) and (fsS > 3) and (fsO > 3) and (linkedFormat == 1) and (sOpen == 1) and (oOpen == 1) and (machineProcessable == 1):
       suggestedType = 'links_from'
-    elif ((tagCount > 0) and (formatsSO <= formatsOS) and (dateTimeCreation == 1) and (fsS > 3) and (fsO > 3) and (linkedFormat == 1) and (sOpen == 1) and (oOpen == 1) and (machineProcessable == 1)):
+    elif (tagCount > 0) and (formatsSO <= formatsOS) and (dateTimeCreation == 1) and (fsS > 3) and (fsO > 3) and (linkedFormat == 1) and (sOpen == 1) and (oOpen == 1) and (machineProcessable == 1):
       suggestedType = 'links_to'
     else:
       suggestedType = 'N.A.'
@@ -158,38 +158,36 @@ class REMController(BaseController):
     formats = ['rdf','ttl','rdfa','rdf+xml','n3','n-triples','nq','sparql','csv','json','tsv','xml','open xml']
 
     mp = ''
-    tmp1 = ''
-    tmp2 = ''
-    control = 0
-
-    #examine whether subject dataset have at least one machine processable format
-    for keyS, valueS in enumerate(subjectInfo['resources']):
-      for keyF, valueF in enumerate(formats):
-        if (valueS['format'].lower() == valueF):
-          tmp1 = 'true'
-          control = 1
-          break
-        else:
-          tmp1 = 'false'
-        if (control == 1):
-          break
-
-    control = 0
 
     #examine whether object dataset have at least one machine processable format
-    for keyO, valueO in enumerate(objectInfo['resources']):
+
+    formatsSO = 0
+    formatsOS = 0
+
+    sDF = []
+    oDF = []
+
+    pan = PANController()
+
+    #get data formats in subject and object dataset
+    sDF = pan._get_formats(subjectInfo['name'])
+    oDF = pan._get_formats(objectInfo['name'])
+
+    #examine whether subject dataset have at least one machine processable format
+    for keyS, valueS in enumerate(sDF):
       for keyF, valueF in enumerate(formats):
-        if (objectInfo['resources'][keyO]['format'].lower() == formats[keyF]):
-          tmp2 = 'true'
-          control = 1
-          break
-        else:
-          tmp2 = 'false'
-        if (control == 1):
-          break
+        if (valueS.lower() == valueF):
+          formatsSO += 1
+
+    #examine whether object dataset have at least one machine processable format
+    for keyO, valueO in enumerate(oDF):
+      for keyF, valueF in enumerate(formats):
+        if (valueO.lower() == valueF):
+          formatsOS += 1
+
 
     #compare results
-    if((tmp1 is 'true') and (tmp2 is 'true')):
+    if all(x > 0 for x in (formatsSO, formatsOS)):
       mp = 'true'
     else:
       mp = 'false'
@@ -203,38 +201,34 @@ class REMController(BaseController):
     formats = ['rdf', 'rdfa', 'ttl', 'n3', 'nq' ,'rdf+xml', 'turtle', 'n-triples']
 
     lF = ''
-    tmp1 = ''
-    tmp2 = ''
-    control = 0
+
+    formatsSO = 0
+    formatsOS = 0
+
+    sDF = []
+    oDF = []
+
+    pan = PANController()
+
+    #get data formats in subject and object dataset
+    sDF = pan._get_formats(subjectInfo['name'])
+    oDF = pan._get_formats(objectInfo['name'])
 
     #examine whether subject dataset have at least one linked data format
-    for keyS, valueS in enumerate(subjectInfo['resources']):
+    for keyS, valueS in enumerate(sDF):
       for keyF, valueF in enumerate(formats):
-        if (valueS['format'].lower() == valueF):
-          tmp1 = 'true'
-          control = 1
-          break
-        else:
-          tmp1 = 'false'
-        if (control == 1):
-          break
-
-    control = 0
+        if (valueS.lower() == valueF):
+          formatsSO += 1
 
     #examine whether object dataset have at least one linked data format
-    for keyO, valueO in enumerate(objectInfo['resources']):
+    for keyO, valueO in enumerate(oDF):
       for keyF, valueF in enumerate(formats):
-        if (objectInfo['resources'][keyO]['format'].lower() == formats[keyF]):
-          tmp2 = 'true'
-          control = 1
-          break
-        else:
-          tmp2 = 'false'
-        if (control == 1):
-          break
+        if (valueO.lower() == valueF):
+          formatsOS += 1
+
 
     #compare results
-    if((tmp1 is 'true') and (tmp2 is 'true')):
+    if all(x > 0 for x in (formatsSO, formatsOS)):
       lF = 'true'
     else:
       lF = 'false'
@@ -309,9 +303,9 @@ class REMController(BaseController):
         if 'links:' in value:
           oLinks.append(value.lstrip('links:'))
 
-    if (len(oLinks) > 0):
+    if len(oLinks) > 0:
       for key,value in enumerate(oLinks):
-        if subjectInfo['name'] is oLinks[key]:
+        if subjectInfo['name'] == oLinks[key]:
           linkSO = 'true'
           break
         else:
@@ -319,9 +313,9 @@ class REMController(BaseController):
     else:
       linkSO = 'false'
 
-    if (len(sLinks) > 0):
+    if len(sLinks) > 0:
       for key,value in enumerate(sLinks):
-        if objectInfo['name'] is sLinks[key]:
+        if objectInfo['name'] == sLinks[key]:
           linkOS = 'true'
           break
         else:

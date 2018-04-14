@@ -78,11 +78,11 @@ $(".window").addClass("semantic-white");
 $("#typeDiv").hide();	
 //function for adding suggested type of relation into pending actions table and in table for similarity
 $(".suggestedValue").click(function() {
-	var temp = $("#similarityTest tr:last #suggestedValue").text();
+	var temp = $(".suggestedValue").text();
 	if(temp != 'N.A.')
 	{
 		$("#conns tr:last td:nth-child(2)").html(temp);
-                $("#conns tr:last td:nth-child(2)").html('created by lire');
+                $("#conns tr:last td:nth-child(5)").html('created by LIRE');
 	}	
 }).tooltip({
 	title: 'Click on suggested type to <br> apply it',
