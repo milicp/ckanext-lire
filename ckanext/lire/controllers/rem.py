@@ -134,13 +134,13 @@ class REMController(BaseController):
 
     #examine dataset parameters accordint to the model to check can we suggest 
     #some type of relation to the user apart from the one  he choose
-    if (tagCount > 0) and (org_gru == 1) and (tagSOO >= tagOSO) and (tagSOG >= tagOSG) and (resultLinks is 'true') and (formatsSO > formatsOS) and (dateTimeCreation == 0) and (trackingSD['total'] < trackingOD['total']) and (trackingSD['recent'] < trackingOD['recent']) and (fsS < fsO) and (sOpen == 1) and (oOpen == 1):
+    if (tagCount > 0) and (org_gru == 1) and (tagSOO >= tagOSO) and (tagSOG >= tagOSG) and (resultLinks is 'true') and (formatsSO > formatsOS) and (dateTimeCreation == 0) and (trackingSD['total'] < trackingOD['total']) and (trackingSD['recent'] <= trackingOD['recent']) and (fsS < fsO) and (sOpen == 1) and (oOpen == 1):
       suggestedType = 'child_of'
-    elif (tagCount > 0) and (org_gru == 1) and (tagSOO <= tagOSO) and (tagSOG <= tagOSG) and (resultLinks is 'true') and (formatsSO < formatsOS) and (dateTimeCreation == 1) and (trackingSD['total'] > trackingOD['total']) and (trackingSD['recent'] > trackingOD['recent']) and (fsS > fsO) and (sOpen == 1) and (oOpen == 1): 
+    elif (tagCount > 0) and (org_gru == 1) and (tagSOO <= tagOSO) and (tagSOG <= tagOSG) and (resultLinks is 'true') and (formatsSO < formatsOS) and (dateTimeCreation == 1) and (trackingSD['total'] > trackingOD['total']) and (trackingSD['recent'] >= trackingOD['recent']) and (fsS > fsO) and (sOpen == 1) and (oOpen == 1): 
       suggestedType = 'parent_of'
-    elif (tagCount > 0) and (formatsSO >= formatsOS) and (dateTimeCreation == 2) and (fsS > 3) and (fsO > 3) and (linkedFormat == 1) and (sOpen == 1) and (oOpen == 1) and (machineProcessable == 1):
+    elif (tagCount > 0) and (formatsSO >= formatsOS) and (dateTimeCreation == 1) and (fsS > 3) and (fsO > 3) and (linkedFormat == 1) and (sOpen == 1) and (oOpen == 1) and (machineProcessable == 1):
       suggestedType = 'links_from'
-    elif (tagCount > 0) and (formatsSO <= formatsOS) and (dateTimeCreation == 1) and (fsS > 3) and (fsO > 3) and (linkedFormat == 1) and (sOpen == 1) and (oOpen == 1) and (machineProcessable == 1):
+    elif (tagCount > 0) and (formatsSO <= formatsOS) and (dateTimeCreation == 0) and (fsS > 3) and (fsO > 3) and (linkedFormat == 1) and (sOpen == 1) and (oOpen == 1) and (machineProcessable == 1):
       suggestedType = 'links_to'
     else:
       suggestedType = 'N.A.'
